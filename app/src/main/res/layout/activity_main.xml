@@ -27,7 +27,7 @@
             android:id="@+id/tvResultadoImc"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/msgInicio"
+            android:text="@string/app_name"
             android:textColor="@color/black"
             android:textSize="24sp"
             android:textStyle="bold"
@@ -70,7 +70,8 @@
             app:layout_constraintEnd_toStartOf="@+id/tvFaixaPeso"
             app:layout_constraintStart_toEndOf="@+id/tvClassificacaoImc"
             app:layout_constraintTop_toBottomOf="@+id/tvResultadoImc"
-            app:srcCompat="@drawable/m2" />
+            app:srcCompat="@drawable/m2"
+            android:contentDescription="@string/mainTitulo" />
 
         <EditText
             android:id="@+id/etPeso"
@@ -79,6 +80,7 @@
             android:textColor="@color/black"
             android:textStyle="bold"
             android:hint="@string/pesoHint"
+            android:autofillHints="@string/pesoHint"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintBottom_toTopOf="@id/calcularBt"/>
 
@@ -87,6 +89,7 @@
             android:id="@+id/etAltura"
             style="@style/inputStyle"
             android:hint="@string/alturaHint"
+            android:autofillHints="@string/alturaHint"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintBottom_toTopOf="@id/calcularBt"/>
 

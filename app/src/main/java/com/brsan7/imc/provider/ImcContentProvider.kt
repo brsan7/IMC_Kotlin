@@ -38,9 +38,9 @@ class ImcContentProvider : ContentProvider() {
         return 0
     }
 
-    override fun getType(uri: Uri): String? = throw UnsupportedSchemeException("Uri não implementada")
+    override fun getType(uri: Uri): String = throw UnsupportedSchemeException("Uri não implementada")
 
-    override fun insert(uri: Uri, values: ContentValues?): Uri? {
+    override fun insert(uri: Uri, values: ContentValues?): Uri {
         val insertUri:Uri = Uri.withAppendedPath(BASE_URI, "id.toString()")
         return insertUri
     }
@@ -55,6 +55,7 @@ class ImcContentProvider : ContentProvider() {
                 val cursor = db.query(HistoricoApplication.instance.helperDB?.TABLE_NAME,
                 projection,selection,selectionArgs,null,null,sortOrder)
                 cursor.setNotificationUri(context?.contentResolver, uri)
+                cursor.close()
                 cursor
             }
             mUriMatcher.match(uri) == REGISTROS_BY_ID->{
@@ -62,6 +63,7 @@ class ImcContentProvider : ContentProvider() {
                 val cursor = db.query(HistoricoApplication.instance.helperDB?.TABLE_NAME,
                         projection,"$_ID = ?", arrayOf(uri.lastPathSegment),null,null,sortOrder)
                 cursor.setNotificationUri(context?.contentResolver, uri)
+                cursor.close()
                 cursor
             }
             else->{
@@ -80,7 +82,7 @@ class ImcContentProvider : ContentProvider() {
     companion object{
         const val AUTORITY = "com.brsan7.imc.provider"
         val BASE_URI = Uri.parse("content://$AUTORITY")
-        val URI_REGISTROS = Uri.withAppendedPath(BASE_URI,"registros")
+        //val URI_REGISTROS = Uri.withAppendedPath(BASE_URI,"registros")
         const val REGISTROS =1
         const val REGISTROS_BY_ID = 2
     }

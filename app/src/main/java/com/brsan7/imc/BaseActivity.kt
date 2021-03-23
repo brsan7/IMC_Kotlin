@@ -14,11 +14,11 @@ open class BaseActivity : AppCompatActivity(){
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        if(toolBar.title.toString()==getString(R.string.historicoEditTituloCMP)) {
+        if(toolBar.title.toString()==getString(R.string.historicoEditTitulo)) {
             val intent = Intent(this, HistoricoActivity::class.java)
             startActivity(intent)
         }
-        if(toolBar.title.toString()==getString(R.string.historicoTituloCMP)) {
+        if(toolBar.title.toString()==getString(R.string.historicoTitulo)) {
             val intent = Intent(this, MainActivity::class.java)
             startActivity(intent)
         }

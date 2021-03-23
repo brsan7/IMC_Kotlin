@@ -1,5 +1,6 @@
 package com.brsan7.imc.utils
 
+import android.annotation.SuppressLint
 import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.app.PendingIntent
@@ -14,6 +15,7 @@ import com.brsan7.imc.R
 
 lateinit var notificationChannel: NotificationChannel
 lateinit var notificationManager: NotificationManager
+@SuppressLint("StaticFieldLeak")
 lateinit var builder: NotificationCompat.Builder
 
 fun Context.showNotification(chanelId: String, title: String, body: String){
@@ -44,7 +46,7 @@ fun Context.showNotification(chanelId: String, title: String, body: String){
             setAutoCancel(true)
             setSound(RingtoneManager.getDefaultUri(RingtoneManager.TYPE_RINGTONE))
             setContentIntent(pendingIntent)
-            setPriority(NotificationCompat.PRIORITY_HIGH)
+            priority = NotificationCompat.PRIORITY_HIGH
 
         }
         notificationManager.notify(chanelId.toInt(), builder.build())

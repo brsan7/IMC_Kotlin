@@ -10,8 +10,8 @@ class HelperDB (
 ): SQLiteOpenHelper(context, NOME_BANCO, null, VESAO_ATUAL) {
 
     companion object{
-        private val NOME_BANCO = "historico.db"
-        private val VESAO_ATUAL = 1
+        private const val NOME_BANCO = "historico.db"
+        private const val VESAO_ATUAL = 1
 
     }
 
@@ -47,23 +47,23 @@ class HelperDB (
         onCreate(db)
     }
 
-    fun buscarRegistros(busca : String, isBuscaPorData : Boolean = false) : List<HistoricoVO>{
+    fun buscarRegistros(argumento : String, isBuscaPorData : Boolean = false) : List<HistoricoVO>{
 
         val db = readableDatabase ?: return mutableListOf()
-        var lista = mutableListOf<HistoricoVO>()
+        val lista = mutableListOf<HistoricoVO>()
         val sql:String
         if(isBuscaPorData){
-            sql = "SELECT * FROM $TABLE_NAME WHERE $COLUMNS_DATA LIKE '%$busca%'"
+            sql = "SELECT * FROM $TABLE_NAME WHERE $COLUMNS_DATA LIKE '%$argumento%'"
         }else{
-            sql = "SELECT * FROM $TABLE_NAME WHERE $COLUMNS_ID LIKE '%$busca%'"
+            sql = "SELECT * FROM $TABLE_NAME WHERE $COLUMNS_ID LIKE '%$argumento%'"
         }
-        var cursor = db.rawQuery(sql, arrayOf())
+        val cursor = db.rawQuery(sql, arrayOf())
         if (cursor == null){
             db.close()
             return mutableListOf()
         }
         while (cursor.moveToNext()){
-            var itemHist = HistoricoVO(
+            val itemHist = HistoricoVO(
                     cursor.getInt(cursor.getColumnIndex(COLUMNS_ID)),
                     cursor.getString(cursor.getColumnIndex(COLUMNS_DATA)),
                     cursor.getString(cursor.getColumnIndex(COLUMNS_HORA)),
@@ -74,6 +74,7 @@ class HelperDB (
             )
             lista.add(itemHist)
         }
+        cursor.close()
         db.close()
         return lista
     }

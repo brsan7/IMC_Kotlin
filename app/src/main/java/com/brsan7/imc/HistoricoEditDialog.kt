@@ -9,27 +9,25 @@ import android.widget.EditText
 import android.widget.TextView
 import androidx.fragment.app.DialogFragment
 import androidx.lifecycle.ViewModelProvider
-import com.brsan7.imc.application.HistoricoApplication
 import com.brsan7.imc.model.HistoricoVO
 import com.brsan7.imc.viewmodels.HistoricoEditViewModel
-import kotlinx.android.synthetic.main.activity_historico_edit.*
-import kotlinx.android.synthetic.main.activity_main.*
 
 class HistoricoEditDialog : DialogFragment(), DialogInterface.OnClickListener {
 
-    lateinit var heViewModel: HistoricoEditViewModel
+    private lateinit var heViewModel: HistoricoEditViewModel
     private var idHistorico: Int = 0
-    lateinit var tvDataDiag: TextView
-    lateinit var tvHoraDiag: TextView
-    lateinit var tvPesoDiag: TextView
-    lateinit var tvAlturaDiag: TextView
-    lateinit var tvAGeneroDiag: TextView
-    lateinit var etObservacaoDiag: EditText
+    private lateinit var tvDataDiag: TextView
+    private lateinit var tvHoraDiag: TextView
+    private lateinit var tvPesoDiag: TextView
+    private lateinit var tvAlturaDiag: TextView
+    private lateinit var tvAGeneroDiag: TextView
+    private lateinit var etObservacaoDiag: EditText
 
     companion object{
         private const val EXTRA_ID = "id"
 
         fun newInstance(id: Long): HistoricoEditDialog{
+
             val bundle = Bundle()
             bundle.putLong(EXTRA_ID, id)
             val historicoEditFragment = HistoricoEditDialog()
@@ -39,16 +37,18 @@ class HistoricoEditDialog : DialogFragment(), DialogInterface.OnClickListener {
     }
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
+
         val view = activity?.layoutInflater?.inflate(R.layout.activity_historico_edit, null)
         idHistorico = arguments?.getLong(EXTRA_ID)?.toInt() ?: 0
         tvDataDiag = view?.findViewById(R.id.tvDataEdit) as TextView
-        tvHoraDiag = view?.findViewById(R.id.tvHoraEdit) as TextView
-        tvPesoDiag = view?.findViewById(R.id.tvPesoEdit) as TextView
-        tvAlturaDiag = view?.findViewById(R.id.tvAlturaEdit) as TextView
-        tvAGeneroDiag = view?.findViewById(R.id.tvGeneroEdit) as TextView
-        etObservacaoDiag = view?.findViewById(R.id.etObservacaoEdit) as EditText
-        setupRegistro()
-        if (!heViewModel.fstScan){etModel()}
+        tvHoraDiag = view.findViewById(R.id.tvHoraEdit) as TextView
+        tvPesoDiag = view.findViewById(R.id.tvPesoEdit) as TextView
+        tvAlturaDiag = view.findViewById(R.id.tvAlturaEdit) as TextView
+        tvAGeneroDiag = view.findViewById(R.id.tvGeneroEdit) as TextView
+        etObservacaoDiag = view.findViewById(R.id.etObservacaoEdit) as EditText
+
+        setupHistoricoEditViewModel()
+
         return AlertDialog.Builder(activity as Activity)
                 .setTitle(getString(R.string.historicoEditTitulo))
                 .setView(view)
@@ -58,38 +58,36 @@ class HistoricoEditDialog : DialogFragment(), DialogInterface.OnClickListener {
     }
 
     override fun onClick(dialog: DialogInterface?, which: Int) {
+
         if(which==-1){onClickSalvarRegistro()}
+    }
+
+    private fun setupHistoricoEditViewModel(){
+
+        heViewModel = ViewModelProvider(this).get(HistoricoEditViewModel::class.java)
+        heViewModel.heItemHist.observe(this, { itemHist->
+            setupRegistro(itemHist)
+        })
+        heViewModel.getItemEdit(idHistorico)
     }
 
     override fun onPause() {
         super.onPause()
-        heViewModel.heObservacao.value = etObservacaoDiag.text.toString()
+        heViewModel.heItemHist.value?.observacao = etObservacaoDiag.text.toString()
     }
 
-    private fun setupRegistro(){
-        heViewModel = ViewModelProvider(this).get(HistoricoEditViewModel::class.java)
-        var itemHist = HistoricoVO()
-        Thread(Runnable {
-            val lista = HistoricoApplication.instance.helperDB?.buscarRegistros("$idHistorico",false) ?: return@Runnable
-            val itemHist = lista.getOrNull(0) ?: return@Runnable
-            tvDataDiag.setText(itemHist.data)
-            tvHoraDiag.setText(itemHist.hora)
-            tvPesoDiag.setText(itemHist.peso)
-            tvAlturaDiag.setText(itemHist.altura)
-            tvAGeneroDiag.setText(itemHist.genero)
-            if (heViewModel.fstScan) {
-                etObservacaoDiag.setText(itemHist.observacao)
-            }
-            heViewModel.fstScan = false
-        }).start()
+    private fun setupRegistro(itemHist: HistoricoVO){
+
+        tvDataDiag.text = itemHist.data
+        tvHoraDiag.text = itemHist.hora
+        tvPesoDiag.text = itemHist.peso
+        tvAlturaDiag.text = itemHist.altura
+        tvAGeneroDiag.text = itemHist.genero
+        etObservacaoDiag.setText(itemHist.observacao)
     }
 
-    private fun etModel(){
-        heViewModel.heObservacao.observe(this, androidx.lifecycle.Observer { valor ->
-            etObservacaoDiag.setText(valor)
-        })
-    }
     private fun onClickSalvarRegistro(){
+
         val itemHist = HistoricoVO(
                 id = idHistorico,
                 data = tvDataDiag.text.toString(),
@@ -99,8 +97,6 @@ class HistoricoEditDialog : DialogFragment(), DialogInterface.OnClickListener {
                 genero = tvAGeneroDiag.text.toString(),
                 observacao = etObservacaoDiag.text.toString()
         )
-        Thread(Runnable {
-            HistoricoApplication.instance.helperDB?.updateRegistro(itemHist)
-        }).start()
+        heViewModel.editItem(itemHist)
     }
 }

@@ -20,3 +20,6 @@ Projeto usado para a aplicação e integração do conhecimento adquirido nos m�
 * **Desenvolvimento integrado de aplicações Android**  
 *Incorporado o ContentProvider e Notifications(notificações locais)*
 -------
+* **Princípios do desenvolvimento Kotlin com Clean Architecture e MVVM**  
+*aplicado os conceitos de MVVM*
+-------

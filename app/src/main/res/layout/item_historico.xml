@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.cardview.widget.CardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -36,14 +38,14 @@
                     android:id="@+id/tvData"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="dd/MM/yyyy"
+                    tools:text="dd/MM/yyyy"
                     android:textColor="@color/verde"
                     android:textSize="24sp"
                     android:textStyle="bold" />
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="_"
+                    tools:text="_"
                     android:textColor="@color/verde"
                     android:textSize="24sp"
                     android:textStyle="bold" />
@@ -51,7 +53,7 @@
                     android:id="@+id/tvHora"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="hh:mm"
+                    tools:text="hh:mm"
                     android:textColor="@color/verde"
                     android:textSize="24sp"
                     android:textStyle="bold" />
@@ -73,7 +75,7 @@
                     android:id="@+id/tvPeso"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="XX"
+                    tools:text="XX"
                     android:textColor="@color/verde"
                     android:textSize="24sp"
                     android:textStyle="bold" />
@@ -94,10 +96,12 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:src="@drawable/excluir"
+            android:contentDescription="@string/btnExcluirHistorico"
             android:layout_marginEnd="16dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+             />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
