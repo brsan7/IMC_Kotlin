@@ -24,7 +24,7 @@
             android:layout_height="wrap_content"
             android:background="@color/black"
             android:orientation="vertical"
-            android:padding="16dp"
+            android:padding="8dp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
 
@@ -38,14 +38,13 @@
                     android:id="@+id/tvData"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    tools:text="dd/MM/yyyy"
+                    tools:text="[ dd/MM/yyyy ]"
                     android:textColor="@color/verde"
                     android:textSize="24sp"
                     android:textStyle="bold" />
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    tools:text="_"
                     android:textColor="@color/verde"
                     android:textSize="24sp"
                     android:textStyle="bold" />
@@ -53,7 +52,7 @@
                     android:id="@+id/tvHora"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    tools:text="hh:mm"
+                    tools:text="[ hh:mm ]"
                     android:textColor="@color/verde"
                     android:textSize="24sp"
                     android:textStyle="bold" />
@@ -67,6 +66,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
                     android:text="@string/constHistEditPeso"
                     android:textColor="@color/verde"
                     android:textSize="24sp"
@@ -97,7 +97,7 @@
             android:layout_height="wrap_content"
             android:src="@drawable/excluir"
             android:contentDescription="@string/btnExcluirHistorico"
-            android:layout_marginEnd="16dp"
+            android:layout_marginEnd="8dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"

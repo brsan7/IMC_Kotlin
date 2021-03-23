@@ -24,9 +24,11 @@ class HistoricoAdapter(
 
     override fun onBindViewHolder(holder: HistoricoViewHolder, position: Int) {
         val itemHist = lista[position]
+        val dataTxt = "[ "+itemHist.data+" ]"
+        val horaTxt = "[ "+itemHist.hora+" ]"
         with(holder.itemView){
-            tvData.text = itemHist.data
-            tvHora.text = itemHist.hora
+            tvData.text = dataTxt
+            tvHora.text = horaTxt
             tvPeso.text = itemHist.peso
             fabDelete.setOnClickListener { listener.historicoRemoveItem(itemHist.id) }
             llItem.setOnClickListener { listener.historicoClickedItem(itemHist.id) }
