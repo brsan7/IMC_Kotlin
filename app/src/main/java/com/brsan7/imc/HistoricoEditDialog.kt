@@ -27,7 +27,6 @@ class HistoricoEditDialog : DialogFragment(), DialogInterface.OnClickListener {
         private const val EXTRA_ID = "id"
 
         fun newInstance(id: Long): HistoricoEditDialog{
-
             val bundle = Bundle()
             bundle.putLong(EXTRA_ID, id)
             val historicoEditFragment = HistoricoEditDialog()
@@ -37,7 +36,6 @@ class HistoricoEditDialog : DialogFragment(), DialogInterface.OnClickListener {
     }
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
-
         val view = activity?.layoutInflater?.inflate(R.layout.activity_historico_edit, null)
         idHistorico = arguments?.getLong(EXTRA_ID)?.toInt() ?: 0
         tvDataDiag = view?.findViewById(R.id.tvDataEdit) as TextView
@@ -58,12 +56,10 @@ class HistoricoEditDialog : DialogFragment(), DialogInterface.OnClickListener {
     }
 
     override fun onClick(dialog: DialogInterface?, which: Int) {
-
         if(which==-1){onClickSalvarRegistro()}
     }
 
     private fun setupHistoricoEditViewModel(){
-
         heViewModel = ViewModelProvider(this).get(HistoricoEditViewModel::class.java)
         heViewModel.heItemHist.observe(this, { itemHist->
             setupRegistro(itemHist)
@@ -77,7 +73,6 @@ class HistoricoEditDialog : DialogFragment(), DialogInterface.OnClickListener {
     }
 
     private fun setupRegistro(itemHist: HistoricoVO){
-
         tvDataDiag.text = itemHist.data
         tvHoraDiag.text = itemHist.hora
         tvPesoDiag.text = itemHist.peso
@@ -87,7 +82,6 @@ class HistoricoEditDialog : DialogFragment(), DialogInterface.OnClickListener {
     }
 
     private fun onClickSalvarRegistro(){
-
         val itemHist = HistoricoVO(
                 id = idHistorico,
                 data = tvDataDiag.text.toString(),

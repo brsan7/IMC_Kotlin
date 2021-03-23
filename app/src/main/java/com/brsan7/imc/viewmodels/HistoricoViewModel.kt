@@ -7,14 +7,15 @@ import com.brsan7.imc.application.HistoricoApplication
 import com.brsan7.imc.model.HistoricoVO
 
 class HistoricoViewModel : ViewModel() {
-    private var fstScan: Boolean = true
+    private var firstScan: Boolean = true
     private var buscaPorData: Boolean = true
     private var _hAdapterList = MutableLiveData<List<HistoricoVO>>()
     val hAdapterList: LiveData<List<HistoricoVO>>
         get() = _hAdapterList
+    var validScan: Boolean = false
 
     fun buscarRegistros (argumento:String, isBuscaPorData:Boolean){
-        if (fstScan || argumento != "") {
+        if (firstScan || validScan) {
             buscaPorData = isBuscaPorData
             Thread{
                 try {
@@ -23,11 +24,11 @@ class HistoricoViewModel : ViewModel() {
                     ex.printStackTrace()
                 }
             }.start()
-            fstScan = false
+            firstScan = false
         }
+        validScan = true
     }
     fun excluirRegistro (dataSelecionada: String,index: Int){
-
         Thread{
             try {
                 HistoricoApplication.instance.helperDB?.deletarRegistro(index)
@@ -39,7 +40,7 @@ class HistoricoViewModel : ViewModel() {
                 buscarRegistros(dataSelecionada, true)
             }
             else{
-                fstScan = true
+                firstScan = true
                 buscarRegistros("", false)
             }
         }.start()

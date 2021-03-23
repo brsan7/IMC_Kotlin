@@ -40,4 +40,7 @@
     <string name="boasVindas">Bem Vindo ao Cálculo do IMC</string>
     <string name="descricaoBoasVindas">Toque aqui para acompanhar o seu Histórico</string>
     <string name="tituloNotificacao">Alteração de Peso</string>
+    <string name="menuHistoricoSelData">Selecionar Data</string>
+    <string name="menuHistoricoSelTodos">Selecionar Todos</string>
+    <string name="menuMainSelHistorico">Histórico</string>
 </resources>

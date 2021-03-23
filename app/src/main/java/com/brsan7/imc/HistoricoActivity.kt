@@ -12,6 +12,8 @@ import com.brsan7.imc.adapter.HistoricoAdapter
 import com.brsan7.imc.model.HistoricoVO
 import com.brsan7.imc.viewmodels.HistoricoViewModel
 import kotlinx.android.synthetic.main.activity_historico.*
+import java.text.SimpleDateFormat
+import java.util.*
 
 class HistoricoActivity : BaseActivity() {
 
@@ -19,7 +21,6 @@ class HistoricoActivity : BaseActivity() {
     lateinit var hViewModel : HistoricoViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
-
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_historico)
         setupToolBar(toolBar, getString(R.string.historicoTitulo),true)
@@ -30,16 +31,19 @@ class HistoricoActivity : BaseActivity() {
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
-
         val inflater: MenuInflater = menuInflater
         inflater.inflate(R.menu.menu_busca, menu)
         return true
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-
         return when (item.itemId){
-            R.id.menuFiltro ->{
+            R.id.menuSelTodos ->{
+                hViewModel.buscarRegistros("",false)
+                calBusca.visibility = View.GONE
+                true
+            }
+            R.id.menuSelData ->{
                 calBusca.visibility = View.VISIBLE
                 true
             }
@@ -48,22 +52,22 @@ class HistoricoActivity : BaseActivity() {
     }
 
     private fun setupRecyclerView(){
-
         recyclerView.layoutManager = LinearLayoutManager(this)
     }
 
     private fun setupHistoricoViewModel(){
-
         hViewModel = ViewModelProvider(this).get(HistoricoViewModel::class.java)
         hViewModel.hAdapterList.observe(this, { lista->
             getRegistrosSelecionados(lista)
         })
         carregamentoDados(true)
-        hViewModel.buscarRegistros("",false)
+        val date = Date().time
+        val dateFormat = SimpleDateFormat("d/M/yyyy", Locale.getDefault())
+        hViewModel.validScan = false
+        hViewModel.buscarRegistros(dateFormat.format(date),true)
     }
 
     private fun setupCalendario(){
-
         calBusca.setOnDateChangeListener{ _, ano, mes, dia ->
             onClickBuscaData(ano, mes, dia)
         }
@@ -71,13 +75,11 @@ class HistoricoActivity : BaseActivity() {
     }
 
     private fun onClickItemRecyclerView(index: Int){
-
         val fragment = HistoricoEditDialog.newInstance(index.toLong())
         fragment.show(supportFragmentManager, "dialog")
     }
 
     private fun getRegistrosSelecionados(lista: List<HistoricoVO>){
-
         adapter = HistoricoAdapter(this,lista ,object : HistoricoClickedListener{
             override fun historicoClickedItem(index: Int) {onClickItemRecyclerView(index)}
             override fun historicoRemoveItem(index: Int) {hViewModel.excluirRegistro(lista.first().data,index)}
@@ -87,14 +89,12 @@ class HistoricoActivity : BaseActivity() {
     }
 
     private fun onClickBuscaData(ano:Int, mes:Int, dia:Int) {
-
         carregamentoDados(true)
         hViewModel.buscarRegistros("$dia/${mes + 1}/$ano", true)
         Toast.makeText(this,getString(R.string.msgToastHistoricoBusca)+"$dia/${mes + 1}/$ano",Toast.LENGTH_SHORT).show()
     }
 
     private fun carregamentoDados(isLoading: Boolean){
-
         pbHistorico.visibility = if (isLoading) View.VISIBLE else View.GONE
     }
 }
